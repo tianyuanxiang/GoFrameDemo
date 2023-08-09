@@ -2,7 +2,7 @@ package controller
 
 import (
 	"context"
-	v1 "demo/api/hello/v1"
+	"demo/api/v1"
 	"demo/internal/service"
 	"fmt"
 )

@@ -2,7 +2,15 @@
 # https://goframe.org/pages/viewpage.action?pageId=3673173
 gfcli:
   build:
-    name:     "gf"
-    arch:     "all"
-    system:   "all"
+    name:     "my2"
+    arch:     "amd64"
+    system:   "linux"
     output:   "./bin"
+    cgo: 0
+    packSrc: "manifest/config,resource/i18n,resource/public,resource/template"
+  gen:
+    dao:
+      - link: "mysql:root:tyx123456@tcp(127.0.0.1:3306)/librarymanager"
+        tables: "bookborrowinformation"
+        jsonCase: "CamelLower"
+        debug: true

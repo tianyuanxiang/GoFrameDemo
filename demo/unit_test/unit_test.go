@@ -3,6 +3,7 @@ package unit_test
 import (
 	"fmt"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gctx"
 	"testing"
 
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2" // 导入MySQL驱动
@@ -130,19 +131,31 @@ func TestU(t *testing.T) {
 //fmt.Println(Se[0].Date.Name)
 //fmt.Println(Se[0].Date.ISBN)
 
-//fmt.Println(se[0].Date)
-//fmt.Println(se[0].Message)
-//var Se []v1.InsertRes
-//Sr1 := new(v1.InsertRes)
-//all, err := g.Model("library").Ctx(gctx.New()).Fields("date,name").Where("name = '光荣与梦想'").All()
-//if err != nil {
-//	return
-//}
-//fmt.Println(all)
-//for i, record := range all {
-//	fmt.Println(i)
-//	append(Se, record.Map())
+// fmt.Println(se[0].Date)
+// fmt.Println(se[0].Message)
+// var Se []v1.InsertRes
+// Sr1 := new(v1.InsertRes)
+// all, err := g.Model("library").Ctx(gctx.New()).Fields("date,name").Where("name = '光荣与梦想'").All()
 //
-//}
+//	if err != nil {
+//		return
+//	}
 //
-//fmt.Println(s)
+// fmt.Println(all)
+//
+//	for i, record := range all {
+//		fmt.Println(i)
+//		append(Se, record.Map())
+//
+// }
+//
+// fmt.Println(s)
+func TestK(t *testing.T) {
+
+	pub, err := g.DB().Ctx(gctx.New()).Model("bookborrowinformation").Where("ID", 2).All()
+	if err != nil {
+		return
+	}
+	//var Se []v1.BookInformation
+	fmt.Println(pub)
+}

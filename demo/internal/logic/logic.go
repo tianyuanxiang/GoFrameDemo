@@ -1,5 +1,5 @@
 package logic
 
 import (
-	_ "demo/internal/logic/user"
+	_ "demo/internal/logic/BookManagment"
 )
