@@ -7,20 +7,20 @@ package service
 
 import (
 	"context"
-	"demo/api/v1"
+	v1 "demo/api/v1"
 )
 
 type (
 	IUser interface {
 		// 新增
-		Insert(ctx context.Context, in v1.InsertReq) (out *v1.InsertRes, err error)
+		Insert(ctx context.Context, in v1.BookInsertReq) (out *v1.BookInsertRes, err error)
 		// 得到书名和出版日期，判断有没有
 		// 都隶属于sUser这个结构体
-		Query(ctx context.Context, name string, ISBN string, PublisherId int) (out *v1.Q_Res, err error)
+		Query(ctx context.Context, name string, ISBN string) (out *v1.BookQueryRes, err error)
 		// 修改
-		Update(ctx context.Context, in v1.UpdateReq) (outUpdated *v1.UpdateRes, err error)
+		Update(ctx context.Context, in v1.BookUpdateReq) (outUpdated *v1.BookUpdateRes, err error)
 		// 删除
-		Delete(ctx context.Context, in v1.DeleteReq) (OutDeleted *v1.DeleteRes, err error)
+		Delete(ctx context.Context, in v1.BookDeleteReq) (OutDeleted *v1.BookDeleteRes, err error)
 	}
 )
 
