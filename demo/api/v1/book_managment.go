@@ -10,7 +10,7 @@ import (
 // 查询
 // 描述了客户端在调用接口时所需提供的数据格式和字段(调用接口需要提供的东西)。
 type BookQueryReq struct {
-	g.Meta `path:"/BookManagment/Query" tags:"BookQueryReq" method:"get" summary:"查询图书信息"`
+	g.Meta `path:"/book_managment/Query" tags:"BookQueryReq" method:"get" summary:"查询图书信息"`
 	Name   string `v:"require" json:"BookName"`
 	ISBN   string `json:"Book_ISBN"`
 }
@@ -36,7 +36,7 @@ type BookInformation struct {
 
 // 新增
 type BookInsertReq struct {
-	g.Meta `path:"/BookManagment/Insert" tags:"Insert_Data" method:"post" summary:"添加一条图书信息"`
+	g.Meta `path:"/book_managment/Insert" tags:"Insert_Data" method:"post" summary:"添加一条图书信息"`
 	Date   BookInformation `json:"InsertInformation"`
 }
 type BookInsertRes struct {
@@ -47,7 +47,7 @@ type BookInsertRes struct {
 // 修改
 // 说明里面已经存在了，我需要先查询出来，再修改
 type BookUpdateReq struct {
-	g.Meta      `path:"/BookManagment/Update" tags:"Update_Data" method:"get" summary:"修改图书信息"`
+	g.Meta      `path:"/book_managment/Update" tags:"Update_Data" method:"get" summary:"修改图书信息"`
 	Information BookInformation `json:"Book_Information"`
 	Ret         int             `json:"updateID"`
 }
@@ -59,7 +59,7 @@ type BookUpdateRes struct {
 // 删除
 // 只需要提供其中一个字段（name或者ISBN）
 type BookDeleteReq struct {
-	g.Meta `path:"/BookManagment/Delete" tags:"DeleteData" method:"get" summary:"删除一条图书信息"`
+	g.Meta `path:"/book_managment/Delete" tags:"DeleteData" method:"get" summary:"删除一条图书信息"`
 	// 假设数据表中Name、ISBN和publisher_id无重复
 	Name string `json:"bookName"`
 	ISBN string `json:"bookISBN"`

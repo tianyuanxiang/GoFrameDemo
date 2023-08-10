@@ -1,4 +1,4 @@
-package BookManagment
+package book_managment
 
 import (
 	"context"

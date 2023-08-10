@@ -3,7 +3,6 @@ package unit_test
 import (
 	"fmt"
 	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gctx"
 	"testing"
 
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2" // 导入MySQL驱动
@@ -152,10 +151,19 @@ func TestU(t *testing.T) {
 // fmt.Println(s)
 func TestK(t *testing.T) {
 
-	pub, err := g.DB().Ctx(gctx.New()).Model("bookborrowinformation").Where("ID", 2).All()
+	//pub, err := g.DB().Ctx(gctx.New()).Model("bookborrowinformation").Where("ID", 2).All()
+	//if err != nil {
+	//	return
+	//}
+	////var Se []v1.BookInformation
+	//fmt.Println(pub)
+	//BookTypeID := 102
+	//
+	//pub, err := g.DB().Ctx(gctx.New()).Model("booktype").
+	//	Where("BookTypeID", BookTypeID).All()
+	pub, err := g.Model("booktype").All()
+	fmt.Println(pub)
 	if err != nil {
 		return
 	}
-	//var Se []v1.BookInformation
-	fmt.Println(pub)
 }

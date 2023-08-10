@@ -20,7 +20,8 @@ var (
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					// New 结构体绑定了很多方法，可以统一注册
-					controller.New(),
+					controller.New(),   // 图书管理
+					controller.TypeCtl, // 图书类型管理
 				)
 			})
 			s.Run()
