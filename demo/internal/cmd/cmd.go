@@ -22,6 +22,7 @@ var (
 					// New 结构体绑定了很多方法，可以统一注册
 					controller.New(),   // 图书管理
 					controller.TypeCtl, // 图书类型管理
+					controller.UserCtl, // 用户管理
 				)
 			})
 			s.Run()

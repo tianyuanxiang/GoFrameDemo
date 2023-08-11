@@ -38,8 +38,8 @@ type BookTypeNumReq struct {
 }
 
 type BookTypeNumRes struct {
-	Message     string                `json:"message"` // 消息
-	Information []BookTypeInformation `json:"Information"`
+	Message     string                 `json:"message"` // 消息
+	Information *[]BookTypeInformation `json:"Information"`
 }
 
 // 图书类别添加接口

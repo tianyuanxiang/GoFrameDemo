@@ -14,8 +14,8 @@ type ReaderInformationReq struct {
 
 // 直接返回完整的读者信息，当前借阅数和历史借阅数怎么搞？
 type ReaderInformationRes struct {
-	Message string          `json:"message"`
-	user    UserInformation `json:"userInformation"`
+	Message string             `json:"message"`
+	User    *[]UserInformation `json:"userInformation"`
 }
 
 type UserInformation struct {
@@ -24,14 +24,14 @@ type UserInformation struct {
 	UserName   string `json:"UserName"`
 	Email      string `json:"Email"`
 	CurrentNum int    `json:"CurrentNum"`
-	HistoryNum int    `json:"ReturnDate"`
+	HistoryNum int    `json:"HistoryNum"`
 }
 
 // 读者信息修改接口
 // 如果改了“读者管理表”中的读者名字，那么在“借阅信息表”中该读者的名字<在查询的时候>也要随之而变。
 // 需要通过一个中间表来构建多对多关系。
 type ReaderModifyReq struct {
-	g.Meta     `path:"/ReaderModifyReq/Query" tags:"ReaderModifyReq"  method:"post" summary:"修改读者信息"`
+	g.Meta     `path:"/ReaderModifyReq/Modify" tags:"ReaderModifyReq"  method:"post" summary:"修改读者信息"`
 	UserIP     string `json:"UserIP"`
 	UserName   string `json:"UserName" v:"require"`
 	CurrentNum string `json:"CurrentNum"`
@@ -42,4 +42,19 @@ type ReaderModifyReq struct {
 type ReaderModifyRes struct {
 	Message      string          `json:"message"`
 	UserModified UserInformation `json:"UserModified"`
+}
+
+// 读者信息添加接口
+type ReaderAddReq struct {
+	g.Meta     `path:"/ReaderInformationAdd/Add" tags:"ReaderAddReq" method:"post" summary:"添加读者信息"`
+	UserIP     string ` json:"UserIP"`
+	UserName   string `json:"UserName"`
+	Email      string `json:"Email"`
+	CurrentNum int    `json:"CurrentNum"`
+	HistoryNum int    `json:"HistoryNum"`
+}
+
+type ReaderAddRes struct {
+	Message   string          `json:"message"`
+	UserAdded UserInformation `json:"UserAdded"`
 }

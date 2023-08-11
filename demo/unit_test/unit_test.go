@@ -161,7 +161,15 @@ func TestK(t *testing.T) {
 	//
 	//pub, err := g.DB().Ctx(gctx.New()).Model("booktype").
 	//	Where("BookTypeID", BookTypeID).All()
-	pub, err := g.Model("booktype").All()
+	//pub, err := g.Model("booktype").All()
+	//fmt.Println(pub)
+	//if err != nil {
+	//	return
+	//}
+	// select b.* from  bookinformation b join booktype t on b.BookTypeID = t.BookTypeID where b.BookTypeID = 101;
+	BookTypeID := 101
+	pub, err := g.Model("booktype t").RightJoin("bookinformation b", "t.BookTypeID = b.BookTypeID").
+		Fields("b.*").Where("b.BookTypeID", BookTypeID).All()
 	fmt.Println(pub)
 	if err != nil {
 		return
