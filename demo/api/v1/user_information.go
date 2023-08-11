@@ -9,7 +9,7 @@ type ReaderInformationReq struct {
 	g.Meta   `path:"/ReaderInformationReq/Query" tags:"ReaderInformation"  method:"get" summary:"查询读者信息"`
 	ID       int    `json:"ReaderID"`
 	UserIP   string `json:"UserIP"`
-	UserName string `json:"UserName" v:"require"`
+	UserName string `json:"UserName" v:"required"`
 }
 
 // 直接返回完整的读者信息，当前借阅数和历史借阅数怎么搞？

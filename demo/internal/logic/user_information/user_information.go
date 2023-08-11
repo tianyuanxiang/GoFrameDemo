@@ -31,6 +31,13 @@ func (s *sUserInformation) UserInformationQuery(ctx context.Context, req *v1.Rea
 	if err != nil {
 		return
 	}
+	if user == nil {
+		res = &v1.ReaderInformationRes{
+			Message: "该用户不存在！",
+			User:    &[]v1.UserInformation{},
+		}
+		return
+	}
 	// 为了支持模糊查询
 	ArrUser := make([]v1.UserInformation, 0)
 	for _, people := range user {
@@ -78,7 +85,7 @@ func (s *sUserInformation) UserInformationAdd(ctx context.Context, req *v1.Reade
 		if err1 != nil {
 			return
 		}
-		flag, err2 := g.Model("UserInformation").Data(data).All()
+		flag, err2 := g.Model("UserInformation").Where(data).All()
 		if err2 != nil {
 			return
 		}
@@ -92,6 +99,7 @@ func (s *sUserInformation) UserInformationAdd(ctx context.Context, req *v1.Reade
 		res = &v1.ReaderAddRes{
 			Message: "用户信息添加成功，信息如下：",
 			UserAdded: v1.UserInformation{
+				Id:         gconv.Int(flag[0]["ID"]),
 				UserIP:     gconv.String(flag[0]["UserIP"]),
 				UserName:   gconv.String(flag[0]["UserName"]),
 				Email:      gconv.String(flag[0]["Email"]),
