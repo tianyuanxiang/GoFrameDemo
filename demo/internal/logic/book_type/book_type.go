@@ -19,7 +19,7 @@ func init() {
 }
 
 // 图书类别查询方法
-func (s *sBookType) BookTypeQuery(ctx context.Context, req *v1.BookTypeReq) (res *v1.BookTypeRes, err error) {
+func (s *sBookType) BookTypeQuery(ctx context.Context) (res *v1.BookTypeRes, err error) {
 	pub, err := g.Model("booktype").Ctx(ctx).All()
 	if err != nil {
 		return

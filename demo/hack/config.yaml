@@ -11,6 +11,6 @@ gfcli:
   gen:
     dao:
       - link: "mysql:root:tyx123456@tcp(127.0.0.1:3306)/librarymanager"
-        tables: "bookborrowinformation"
+        tables: "bookborrowinformation, bookinformation, booktype, userinformation"
         jsonCase: "CamelLower"
         debug: true

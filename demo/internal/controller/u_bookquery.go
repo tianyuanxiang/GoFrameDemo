@@ -6,16 +6,16 @@ import (
 	"demo/internal/service"
 )
 
-type uQuery struct{}
+type uBorrow struct{}
 
-var UQuery = new(uQuery)
+var UBorrow = new(uBorrow)
 
-func (u *uQuery) UqueryBook(ctx context.Context, req *v1.UBookQueryReq) (res *v1.UBookQueryRes, err error) {
-	ret, Err := service.UBookQuery().UBookQuery(ctx, req)
+func (u *uBorrow) UBorrowBook(ctx context.Context, req *v1.UBookBorrowReq) (res *v1.UBookBorrowRes, err error) {
+	ret, Err := service.UBookQuery().UBookBorrow(ctx, req)
 	if Err != nil {
 		return
 	}
-	res = &v1.UBookQueryRes{
+	res = &v1.UBookBorrowRes{
 		Message:     ret.Message,
 		Information: ret.Information,
 	}

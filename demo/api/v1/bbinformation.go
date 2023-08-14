@@ -10,20 +10,20 @@ type BorrowInformationReq struct {
 	g.Meta   `path:"/BookBorrowInformation/Query" tags:"BorrowInfromation"  method:"get" summary:"查询图书借阅信息"`
 	BookName string `json:"BookName" v:"required"`
 	UserIP   string `json:"UserIP"`
-	UserName string
+	UserName string `json:"UserName"`
 }
 
 // 返回flag = 1的所有信息
 type BorrowInformationRes struct {
 	Message     string           `json:"message"`
-	HistoryDate []*BBinformation `json:"historyInformation"`
+	BBorrowData *[]BBinformation `json:"BBorrowInformation"`
 }
 
 // 图书信息
 type BBinformation struct {
 	Id         int    ` dc:"bookId" json:"ID"`
-	ISBN       string `json:"BookISBN"`
 	BookName   string `json:"BookName"`
+	ISBN       string `json:"BookISBN"`
 	UserIP     string ` json:"UserIP"`
 	UserName   string `json:"UserName"`
 	BorrowDate string `json:"BorrowDate"`
@@ -41,7 +41,7 @@ type ReturnInformationReq struct {
 // 返回flag = 1的所有信息
 type BReturInformationRes struct {
 	Message     string           `json:"message"`
-	HistoryDate []*BBinformation `json:"historyInformation"`
+	HistoryDate *[]BBinformation `json:"historyInformation"`
 }
 
 // 还书接口
@@ -49,9 +49,11 @@ type BReturInformationRes struct {
 type ReturnBookReq struct {
 	BookName string `json:"BookName" v:"required"`
 	ISBN     string `json:"BookISBN"`
+	UserIP   string `json:"UserIP"`
+	UserName string `json:"UserName"`
 }
 
 type ReturnBookRes struct {
-	Message    string           `json:"message"`
-	ReturnDate []*BBinformation `json:"ReturnDate"`
+	Message    string        `json:"message"`
+	ReturnDate BBinformation `json:"ReturnDate"`
 }

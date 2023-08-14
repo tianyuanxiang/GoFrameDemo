@@ -12,7 +12,7 @@ import (
 
 type (
 	IUBookQuery interface {
-		UBookQuery(ctx context.Context, in *v1.UBookQueryReq) (out *v1.UBookQueryRes, err error)
+		UBookBorrow(ctx context.Context, req *v1.UBookBorrowReq) (res *v1.UBookBorrowRes, err error)
 	}
 )
 

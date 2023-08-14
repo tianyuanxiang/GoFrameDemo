@@ -2,25 +2,26 @@ package v1
 
 import "github.com/gogf/gf/v2/frame/g"
 
-// 用户侧查询图书借阅信息
-type UBookQueryReq struct {
-	g.Meta   `path:"/uBookQuery/Query" tags:"BookQuery"  method:"get" summary:"用户侧查询图书信息"`
-	BookName string `json:"BookName"`
-	ISBN     string `json:"ISBN"`
+// 用户侧查询图书信息接口
+// 与管理员侧的图书查询功能共用一个接口
+
+// 用户侧借阅图书接口
+type UBookBorrowReq struct {
+	g.Meta            `path:"/UBookQuery/Borrow" tags:"BookBorrow"  method:"get" summary:"用户借阅图书"`
+	BorrowInformation UBBInformation `json:"BorrowInformation"`
 }
 
-type UBookQueryRes struct {
-	Message     string              `json:"message"`
-	Information *[]UBookInformation `json:"Information"`
+type UBookBorrowRes struct {
+	Message     string         `json:"message"`
+	Information UBBInformation `json:"Information"`
 }
 
 // 图书信息
-type UBookInformation struct {
-	Id         int    ` dc:"book_id" json:"id"`
-	Name       string ` json:"book_name"`
-	ISBN       string `json:"Book_ISBN"`
-	Author     string `json:"Author"`
-	Publishers string `json:"Publishers"`
-	BookTypeID int    ` json:"BookTypeID"`
-	Amount     int    `json:"Amount"`
+type UBBInformation struct {
+	ID       int    `json:"ID"`
+	BookName string `json:"BookName"`
+	ISBN     string `json:"ISBN"`
+	UserIP   string `json:"UserIP"`
+	UserName string `json:"UserName"`
+	Flag     int    `json:"Flag"`
 }

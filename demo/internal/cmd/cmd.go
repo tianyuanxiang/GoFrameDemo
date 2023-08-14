@@ -23,6 +23,7 @@ var (
 					controller.New(),   // 图书管理
 					controller.TypeCtl, // 图书类型管理
 					controller.UserCtl, // 用户管理
+					controller.UBorrow, // 用户查询
 				)
 			})
 			s.Run()
