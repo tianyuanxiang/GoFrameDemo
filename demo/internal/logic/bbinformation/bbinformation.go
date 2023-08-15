@@ -6,7 +6,9 @@ import (
 	"demo/internal/service"
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
+	"time"
 )
 
 type sBBInformation struct{}
@@ -18,6 +20,10 @@ func New() *sBBInformation {
 func init() {
 	service.RegisterBBInformation(New())
 }
+
+// 查询某本图书的借阅信息
+// 问题：
+// "ReturnDate": "", 归还日期为空
 
 func (s *sBBInformation) BorrowInformationQuery(ctx context.Context, req *v1.BorrowInformationReq) (res *v1.BorrowInformationRes, err error) {
 
@@ -35,12 +41,13 @@ func (s *sBBInformation) BorrowInformationQuery(ctx context.Context, req *v1.Bor
 	CarrierArray := make([]v1.BBinformation, 0)
 	for _, element := range all {
 		Carrier := v1.BBinformation{
-			BookName:   gconv.String(element["BookName"]),
-			ISBN:       gconv.String(element["ISBN"]),
-			UserIP:     gconv.String(element["UserIP"]),
-			UserName:   gconv.String(element["UserName"]),
-			BorrowDate: gconv.String(element["BorrowDate"]),
-			ReturnDate: gconv.String(element["ReturnDate"]),
+			BookName:       gconv.String(element["BookName"]),
+			ISBN:           gconv.String(element["ISBN"]),
+			UserIP:         gconv.String(element["UserIP"]),
+			UserName:       gconv.String(element["UserName"]),
+			BorrowDate:     gconv.String(element["created_at"]),
+			ReturnDate:     gconv.String(element["ReturnDate"]),
+			BorrowingOrder: gconv.Int(element["BorrowingOrder"]),
 		}
 		CarrierArray = append(CarrierArray, Carrier)
 	}
@@ -52,15 +59,19 @@ func (s *sBBInformation) BorrowInformationQuery(ctx context.Context, req *v1.Bor
 }
 
 // 还书接口ReturnBooks
+// 问题：
+// 1. 点击还书功能，会归还所有借阅的同名图书，改为归还指定图书
+// 2. 请求返回时BorrowDate和ReturnDate不显示
+// 3. BorrowDate未更新
+
 func (s *sBBInformation) ReturnBooks(ctx context.Context, req *v1.ReturnBookReq) (res *v1.ReturnBookRes, err error) {
 	// 事务开启
 	db := g.DB()
 	errTransaction := db.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		// 图书借阅信息表中该记录的flag = 0、图书归还日期更新至当日
 		err = db.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
-			//_, err = db.Ctx(ctx).Update(ctx, "bookborrowinformation",updateData, "ISBN", req.ISBN)
-			// updated_at字段自动更新
-			_, err = g.Model("bookborrowinformation").Ctx(ctx).Data("Flag", 0).Where("ISBN", req.ISBN).Update()
+			// 传入图书ISBN和BorrowingOrder；
+			_, err = g.Model("bookborrowinformation").Ctx(ctx).Data(g.Map{"Flag": 0, "ReturnDate": gtime.New(time.Now())}).Where("BookName", req.BookName).Where("BorrowingOrder", req.BorrowingOrder).Update()
 			if err != nil {
 				return err
 			}
@@ -99,13 +110,20 @@ func (s *sBBInformation) ReturnBooks(ctx context.Context, req *v1.ReturnBookReq)
 	if errTransaction != nil {
 		return
 	}
+	ModifyTime, err := g.Model("bookborrowinformation").Fields("created_at", "ReturnDate").Where("BorrowingOrder", req.BorrowingOrder).One()
+	if err != nil {
+		return
+	}
 	res = &v1.ReturnBookRes{
 		Message: "还书信息如下：",
-		ReturnDate: v1.BBinformation{
-			BookName: req.BookName,
-			ISBN:     req.ISBN,
-			UserIP:   req.UserIP,
-			UserName: req.UserName,
+		ValidateReturnDate: v1.BBinformation{
+			BookName:       req.BookName,
+			ISBN:           req.ISBN,
+			UserIP:         req.UserIP,
+			UserName:       req.UserName,
+			BorrowDate:     gconv.String(ModifyTime["created_at"]),
+			ReturnDate:     gconv.String(ModifyTime["ReturnDate"]),
+			BorrowingOrder: req.BorrowingOrder,
 		},
 	}
 	return

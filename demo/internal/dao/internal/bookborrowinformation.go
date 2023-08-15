@@ -20,26 +20,28 @@ type BookborrowinformationDao struct {
 
 // BookborrowinformationColumns defines and stores column names for table bookborrowinformation.
 type BookborrowinformationColumns struct {
-	ID        string //
-	BookName  string //
-	ISBN      string //
-	UserIP    string //
-	UserName  string //
-	CreatedAt string //
-	UpdatedAt string //
-	Flag      string //
+	ID             string //
+	BookName       string //
+	ISBN           string //
+	UserIP         string //
+	UserName       string //
+	CreatedAt      string //
+	ReturnDate     string //
+	Flag           string //
+	BorrowingOrder string //
 }
 
 // bookborrowinformationColumns holds the columns for table bookborrowinformation.
 var bookborrowinformationColumns = BookborrowinformationColumns{
-	ID:        "ID",
-	BookName:  "BookName",
-	ISBN:      "ISBN",
-	UserIP:    "UserIP",
-	UserName:  "UserName",
-	CreatedAt: "created_at",
-	UpdatedAt: "updated_at",
-	Flag:      "Flag",
+	ID:             "ID",
+	BookName:       "BookName",
+	ISBN:           "ISBN",
+	UserIP:         "UserIP",
+	UserName:       "UserName",
+	CreatedAt:      "created_at",
+	ReturnDate:     "ReturnDate",
+	Flag:           "Flag",
+	BorrowingOrder: "BorrowingOrder",
 }
 
 // NewBookborrowinformationDao creates and returns a new DAO object for table data access.

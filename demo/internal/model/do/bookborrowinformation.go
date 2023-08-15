@@ -11,13 +11,14 @@ import (
 
 // Bookborrowinformation is the golang structure of table bookborrowinformation for DAO operations like Where/Data.
 type Bookborrowinformation struct {
-	g.Meta    `orm:"table:bookborrowinformation, do:true"`
-	ID        interface{} //
-	BookName  interface{} //
-	ISBN      interface{} //
-	UserIP    interface{} //
-	UserName  interface{} //
-	CreatedAt *gtime.Time //
-	UpdatedAt *gtime.Time //
-	Flag      interface{} //
+	g.Meta         `orm:"table:bookborrowinformation, do:true"`
+	ID             interface{} //
+	BookName       interface{} //
+	ISBN           interface{} //
+	UserIP         interface{} //
+	UserName       interface{} //
+	CreatedAt      *gtime.Time //
+	ReturnDate     *gtime.Time //
+	Flag           interface{} //
+	BorrowingOrder interface{} //
 }

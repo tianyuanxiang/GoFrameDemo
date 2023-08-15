@@ -20,6 +20,7 @@ func init() {
 	service.RegisterUBookQuery(New())
 }
 
+// 借书接口
 func (s *sUBookQuery) UBookBorrow(ctx context.Context, req *v1.UBookBorrowReq) (res *v1.UBookBorrowRes, err error) {
 	mid := req.BorrowInformation
 	// transaction 1.
@@ -30,15 +31,18 @@ func (s *sUBookQuery) UBookBorrow(ctx context.Context, req *v1.UBookBorrowReq) (
 			// 借阅日期和归还日期自动生成，其中归还日期为归还日期+70天
 			_, err := g.Model("bookborrowinformation").Ctx(ctx).Data(g.Map{"BookName": mid.BookName, "ISBN": mid.ISBN, "UserIP": mid.UserIP,
 				"UserName": mid.UserName, "Flag": 1}).Insert()
-			result, err := g.Model("bookborrowinformation").Ctx(ctx).Fields("created_at").Where("ISBN", mid.ISBN).One()
+			Result, err := g.Model("bookborrowinformation").Ctx(ctx).Fields("MAX(ID)", "created_at").Where("ISBN", mid.ISBN).Group("created_at").One()
 			var (
 				year  = 0
 				mouth = 0
 				day   = 70
 			)
-			date := gtime.New(gconv.String(result))
-			date = date.AddDate(year, mouth, day)
-			_, err = g.Model("bookborrowinformation").Ctx(ctx).Data(g.Map{"updated_at": date}).Update()
+			// updated_at更新时间被他们写死了，只要设置了updated_at字段，不管插入什么数据，都会被updated_at(当前修改时间所覆盖)
+			date := gtime.New(gconv.String(Result["created_at"]))
+			date2 := date.AddDate(year, mouth, day)
+			_, err = g.Model("bookborrowinformation").Ctx(ctx).Data(g.Map{"ReturnDate": gconv.String(date2), "BorrowingOrder": &gdb.Counter{
+				Field: "ID",
+				Value: 10000}}).Where("ID", gconv.Int(Result["MAX(ID)"])).Update()
 			return err
 		})
 		if err != nil {

@@ -10,12 +10,13 @@ import (
 
 // Bookborrowinformation is the golang structure for table bookborrowinformation.
 type Bookborrowinformation struct {
-	ID        int         `json:"iD"        ` //
-	BookName  string      `json:"bookName"  ` //
-	ISBN      string      `json:"iSBN"      ` //
-	UserIP    string      `json:"userIP"    ` //
-	UserName  string      `json:"userName"  ` //
-	CreatedAt *gtime.Time `json:"createdAt" ` //
-	UpdatedAt *gtime.Time `json:"updatedAt" ` //
-	Flag      int         `json:"flag"      ` //
+	ID             int         `json:"iD"             ` //
+	BookName       string      `json:"bookName"       ` //
+	ISBN           string      `json:"iSBN"           ` //
+	UserIP         string      `json:"userIP"         ` //
+	UserName       string      `json:"userName"       ` //
+	CreatedAt      *gtime.Time `json:"createdAt"      ` //
+	ReturnDate     *gtime.Time `json:"returnDate"     ` //
+	Flag           int         `json:"flag"           ` //
+	BorrowingOrder int         `json:"borrowingOrder" ` //
 }

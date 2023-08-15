@@ -13,7 +13,7 @@ import (
 type (
 	IBookType interface {
 		// 图书类别查询方法
-		BookTypeQuery(ctx context.Context) (res *v1.BookTypeRes, err error)
+		BookTypeQuery(ctx context.Context, req *v1.BookTypeReq) (res *v1.BookTypeRes, err error)
 		BookTypeNumQuery(ctx context.Context, BookTypeID int) (res *v1.BookTypeNumRes, err error)
 	}
 )
