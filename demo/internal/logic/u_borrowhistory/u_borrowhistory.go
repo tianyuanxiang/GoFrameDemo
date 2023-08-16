@@ -8,30 +8,41 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
-type uBorrowHistory struct{}
+type sBorrowHistory struct{}
 
-func New() *uBorrowHistory {
-	return &uBorrowHistory{}
+func New() *sBorrowHistory {
+	return &sBorrowHistory{}
 }
 
 func init() {
-	service.RegisterUBorrowHistory(New())
+	service.RegisterBorrowHistory(New())
 }
 
-func (u *uBorrowHistory) UborrowHistory(ctx context.Context, req *v1.UHistoryBorrowReq) (res *v1.UHistoryBorrowRes, err error) {
+func (u *sBorrowHistory) UborrowHistory(ctx context.Context, req *v1.UHistoryBorrowReq) (res *v1.UHistoryBorrowRes, err error) {
 	// 直接查询“图书信息借阅表”中用户名和用户ID=当前用户名的所有图书信息。
-	OwnBorrowInformation, err := g.Model("bookborrowinformation").Ctx(ctx).Where("UserIP", req.UserIP).WhereOr("UserName", req.UserName).All()
+	object := g.Model("bookborrowinformation").Ctx(ctx).Where("UserIP", req.UserIP)
+	if req.UserName != "" {
+		object = object.Where("UserName", req.UserName)
+	}
+	OwnBorrowInformation, err := object.All()
 	if err != nil {
 		return
 	}
 	MessageCarrier := make([]v1.UHistoryinformation, 0)
+	messages := ""
 	for _, record := range OwnBorrowInformation {
+		if gconv.Int(record["Flag"]) == 1 {
+			messages = "已借阅"
+		} else {
+			messages = "已归还"
+		}
 		net := v1.UHistoryinformation{
 			ID:             gconv.Int(record["ID"]),
 			BookName:       gconv.String(record["BookName"]),
 			ISBN:           gconv.String(record["ISBN"]),
 			UserIP:         gconv.String(record["UserIP"]),
 			UserName:       gconv.String(record["UserName"]),
+			ReturnedOrNot:  messages,
 			BorrowingOrder: gconv.Int(record["BorrowingOrder"]),
 		}
 		MessageCarrier = append(MessageCarrier, net)

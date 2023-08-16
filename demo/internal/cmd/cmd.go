@@ -20,11 +20,14 @@ var (
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					// New 结构体绑定了很多方法，可以统一注册
-					controller.New(),         // 图书管理
-					controller.TypeCtl,       // 图书类型管理
-					controller.UserCtl,       // 用户管理
-					controller.UBorrow,       // 用户查询
-					controller.BBInformation, // 用户借阅信息查询
+					controller.New(),            // 图书管理
+					controller.TypeCtl,          // 图书类型管理
+					controller.UserCtl,          // 用户管理
+					controller.UBorrow,          // 用户查询
+					controller.BBInformation,    // 用户借阅信息查询
+					controller.UHistory,         // 用户历史借阅信息查询
+					controller.UBooksBorrowed,   // 用户当前借阅信息查询
+					controller.UPersonalProfile, // 用户个人信息
 				)
 			})
 			s.Run()
