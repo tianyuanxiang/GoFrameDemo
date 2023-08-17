@@ -21,6 +21,7 @@ func init() {
 }
 
 // 用户查询个人信息
+
 func (s *sPersonsalProfile) QueryPersonalProfile(ctx context.Context, req *v1.PersonalProfileQueryReq) (res *v1.PersonalProfileQueryRes, err error) {
 	// 分开操作，先查询个人信息，再查询图书数量
 	// 查询个人信息
@@ -53,6 +54,28 @@ func (s *sPersonsalProfile) QueryPersonalProfile(ctx context.Context, req *v1.Pe
 	res = &v1.PersonalProfileQueryRes{
 		Message:                    "该用户的信息如下：",
 		PersonalInformationDisplay: DataPadding,
+	}
+	return
+}
+
+func (s *sPersonsalProfile) ModifyPersonalProfile(ctx context.Context, req *v1.PersonalProfileModifyReq) (res *v1.PersonalProfileModifyRes, err error) {
+	data := gmap.New()
+	if req.UserName != "" {
+		data.Set("UserName", req.UserName)
+	}
+	if req.Email != "" {
+		data.Set("Email", req.Email)
+	}
+	_, err = g.Model("userinformation").Ctx(ctx).Data(data.Map()).Where("UserIP", req.UserIP).Update()
+	if err != nil {
+		return
+	}
+	all, err := g.Model("userinformation").Ctx(ctx).Where("UserIP", req.UserIP).All()
+	res = &v1.PersonalProfileModifyRes{
+		Message:          "修改后的个人资料如下：",
+		UserIP:           gconv.String(all[0]["UserIP"]),
+		ModifiedUserName: gconv.String(all[0]["UserName"]),
+		ModifiedEmail:    gconv.String(all[0]["Email"]),
 	}
 	return
 }

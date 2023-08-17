@@ -12,8 +12,8 @@ import (
 
 type (
 	IPersonsalProfile interface {
-		// 用户查询个人信息
 		QueryPersonalProfile(ctx context.Context, req *v1.PersonalProfileQueryReq) (res *v1.PersonalProfileQueryRes, err error)
+		ModifyPersonalProfile(ctx context.Context, req *v1.PersonalProfileModifyReq) (res *v1.PersonalProfileModifyRes, err error)
 	}
 )
 

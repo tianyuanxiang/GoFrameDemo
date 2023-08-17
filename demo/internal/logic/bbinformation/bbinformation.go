@@ -26,7 +26,6 @@ func init() {
 // "ReturnDate": "", 归还日期为空
 
 func (s *sBBInformation) BorrowInformationQuery(ctx context.Context, req *v1.BorrowInformationReq) (res *v1.BorrowInformationRes, err error) {
-
 	object := g.Model("bookborrowinformation").Ctx(ctx).Where("Flag", 1).WhereLike("BookName", "%"+req.BookName+"%")
 	if req.UserIP != "" {
 		object.WhereLike("UserIP", req.UserIP+"%")

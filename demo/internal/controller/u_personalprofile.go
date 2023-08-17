@@ -21,3 +21,17 @@ func (u *uPersonalProfile) QueryPersonalProfile(ctx context.Context, in *v1.Pers
 	}
 	return
 }
+
+func (u *uPersonalProfile) ModifyPersonalProfile(ctx context.Context, in *v1.PersonalProfileModifyReq) (out *v1.PersonalProfileModifyRes, err error) {
+	num, err := service.PersonsalProfile().ModifyPersonalProfile(ctx, in)
+	if err != nil {
+		return
+	}
+	out = &v1.PersonalProfileModifyRes{
+		Message:          num.Message,
+		UserIP:           num.UserIP,
+		ModifiedUserName: num.ModifiedUserName,
+		ModifiedEmail:    num.ModifiedEmail,
+	}
+	return
+}

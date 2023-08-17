@@ -5,7 +5,7 @@ import (
 )
 
 // 比较特殊，因为原本是一张新表，需要动态添加数据。
-// 查询借阅信息和归还信息，都通过这一个接口完成
+// 管理员侧查询图书借阅信息
 
 type BorrowInformationReq struct {
 	g.Meta   `path:"/BookBorrowInformation/Query" tags:"BorrowInfromation"  method:"get" summary:"查询图书借阅信息"`
@@ -33,7 +33,7 @@ type BBinformation struct {
 	BorrowingOrder int    `json:"BorrowingOrder"`
 }
 
-// 查询归还信息接口
+// 管理员侧查询归还信息接口
 
 type ReturnInformationReq struct {
 	g.Meta   `path:"/BookReturnInformation/Query" tags:"BorrowInfromation"  method:"get" summary:"查询图书归还信息"`
