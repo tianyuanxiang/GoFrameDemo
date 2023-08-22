@@ -5,6 +5,7 @@ import (
 	"demo/api/v1"
 	"demo/internal/service"
 	"fmt"
+	"github.com/gogf/gf/v2/frame/g"
 )
 
 type Contrller struct{}
@@ -17,6 +18,7 @@ func New() *Contrller {
 func (c *Contrller) InsertInformation(ctx context.Context, InReq *v1.BookInsertReq) (InRes *v1.BookInsertRes, err error) {
 	info, err := service.User().Insert(ctx, *InReq)
 	if err != nil {
+		g.RequestFromCtx(ctx).Response.WriteStatus(500, nil)
 		return
 	}
 	// return 为空也没事，因为已经赋过值了
@@ -40,6 +42,7 @@ func (c *Contrller) Query_Information(ctx context.Context, Q_req *v1.BookQueryRe
 	// 得到最后的输出
 	// 有错误
 	if err != nil {
+		g.RequestFromCtx(ctx).Response.WriteStatus(500, nil)
 		return
 	}
 	Q_res = &v1.BookQueryRes{
@@ -54,6 +57,7 @@ func (c *Contrller) UpdateInformation(ctx context.Context, req *v1.BookUpdateReq
 	res, err := service.User().Update(ctx, *req)
 	if err != nil {
 		err = err2
+		g.RequestFromCtx(ctx).Response.WriteStatus(500, nil)
 		return
 	}
 	res = &v1.BookUpdateRes{
@@ -68,6 +72,7 @@ func (c *Contrller) DeleteInfromation(ctx context.Context, req *v1.BookDeleteReq
 	cnt, err := service.User().Delete(ctx, *req)
 	if err != nil {
 		err3 = err
+		g.RequestFromCtx(ctx).Response.WriteStatus(500, nil)
 		return
 	}
 	res = &v1.BookDeleteRes{

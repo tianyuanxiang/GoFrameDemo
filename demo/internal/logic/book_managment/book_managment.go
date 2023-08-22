@@ -7,9 +7,8 @@ import (
 	"demo/internal/service"
 	"github.com/gogf/gf/v2/container/gmap"
 	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/util/gconv"
-
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type (
@@ -28,6 +27,7 @@ func New() *sUser {
 var globalVariable = 0
 
 // 新增
+
 func (s *sUser) Insert(ctx context.Context, in v1.BookInsertReq) (out *v1.BookInsertRes, err error) {
 	// 判断in中的各字段在表中是否完全存在
 	// select count(1) from library where name = '翦商' and ISBN = '132456789' and translator = 'qiqi'
@@ -49,6 +49,17 @@ func (s *sUser) Insert(ctx context.Context, in v1.BookInsertReq) (out *v1.BookIn
 		"Author": in.Date.Author, "Publishers": in.Date.Publishers, "BookTypeID": in.Date.BookTypeID, "Amount": in.Date.Amount})
 	if Err != nil {
 		err = Err
+		return
+	}
+	// 图书类型表中的该类型图书数量 + 1
+	updateData := g.Map{
+		"Amount": &gdb.Counter{
+			Field: "Amount",
+			Value: 1,
+		},
+	}
+	_, err = g.DB().Ctx(ctx).Update(ctx, "booktype", updateData, "BookTypeID", in.Date.BookTypeID)
+	if err != nil {
 		return
 	}
 	// 取新插入数据的ID
@@ -76,6 +87,7 @@ func (s *sUser) Insert(ctx context.Context, in v1.BookInsertReq) (out *v1.BookIn
 
 // 得到书名和出版日期，判断有没有
 // 都隶属于sUser这个结构体
+
 func (s *sUser) Query(ctx context.Context, name string, ISBN string) (out *v1.BookQueryRes, err error) {
 	// all里面保存的是：图书数量和id
 	// 是0就不执行AND (`publisher_id`=PublisherId)，

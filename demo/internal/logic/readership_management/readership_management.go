@@ -29,8 +29,8 @@ func (s *sReaderShipManagement) ReaderShipQuery(ctx context.Context, req *v1.Rea
 	CarrierArray := make([]v1.UserProfile, 0)
 	for _, num := range UserData {
 		K := v1.UserProfile{
-			UseIP:      gconv.String(num["UseIP"]),
-			UseName:    gconv.String(num["UseName"]),
+			UserIP:     gconv.String(num["UserIP"]),
+			UserName:   gconv.String(num["UserName"]),
 			Email:      gconv.String(num["Email"]),
 			CurrentNum: gconv.Int(num["CurrentNum"]),
 			HistoryNum: gconv.Int(num["HistoryNum"]),
@@ -59,7 +59,7 @@ func (s *sReaderShipManagement) ReaderShipModify(ctx context.Context, req *v1.Re
 		if req.Email != "" {
 			object.Set("Email", req.Email)
 		}
-		_, err := g.Model("userinformation").Ctx(ctx).Data(object).Where("UserIP", req.UserIP).Update()
+		_, err = g.Model("userinformation").Ctx(ctx).Data(object).Where("UserIP", req.UserIP).Update()
 		if err != nil {
 			return
 		}
@@ -67,12 +67,15 @@ func (s *sReaderShipManagement) ReaderShipModify(ctx context.Context, req *v1.Re
 		if err != nil {
 			return
 		}
-		ModifiedRes, err := g.Model("userinformation").Ctx(ctx).Where("UserIP", req.UserIP).All()
+		ModifiedRes, err2 := g.Model("userinformation").Ctx(ctx).Where("UserIP", req.UserIP).All()
+		if err2 != nil {
+			return
+		}
 		res = &v1.ReadershipModifyRes{
 			Message: "修改后的用户信息如下：",
 			Modified: v1.UserProfile{
-				UseIP:      gconv.String(ModifiedRes[0]["UseIP"]),
-				UseName:    gconv.String(ModifiedRes[0]["UseName"]),
+				UserIP:     gconv.String(ModifiedRes[0]["UserIP"]),
+				UserName:   gconv.String(ModifiedRes[0]["UserName"]),
 				Email:      gconv.String(ModifiedRes[0]["Email"]),
 				CurrentNum: gconv.Int(ModifiedRes[0]["CurrentNum"]),
 				HistoryNum: gconv.Int(ModifiedRes[0]["HistoryNum"]),

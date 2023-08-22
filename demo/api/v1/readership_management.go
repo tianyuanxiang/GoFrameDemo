@@ -14,14 +14,15 @@ type ReadershipQueryRes struct {
 }
 
 type UserProfile struct {
-	UseIP      string `json:"useIP"`
-	UseName    string `json:"useName"`
+	UserIP     string `json:"userIP"`
+	UserName   string `json:"userName"`
 	Email      string `json:"email"`
 	CurrentNum int    `json:"currentNum"`
 	HistoryNum int    `json:"historyNum"`
 }
 
 // 读者信息修改接口
+
 type ReadershipModifyReq struct {
 	g.Meta   `path:"/ReadershipInformation/Modify" tags:"ReadershipInfromation"  method:"post" summary:"修改用户信息"`
 	UserIP   string `json:"userIP" `
@@ -33,3 +34,5 @@ type ReadershipModifyRes struct {
 	Message  string      `json:"message"`
 	Modified UserProfile `json:"modified"`
 }
+
+// 读者信息删除接口

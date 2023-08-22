@@ -6,6 +6,7 @@ import (
 
 // 图书类别查询接口
 // 无参数，点击即可
+
 type BookTypeReq struct {
 	g.Meta `path:"/bookType/class/query" method:"get" summary:"查询图书的类别总数"`
 }
